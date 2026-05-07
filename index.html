@@ -5,17 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Baroud Services</title>
     <style>
-        body { font-family: sans-serif; margin: 0; background: #f0f2f5; text-align: center; }
-        .header { background: #1a1a1a; color: white; padding: 20px; font-size: 24px; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; }
-        .card:active { transform: scale(0.95); }
-        .alfa { border-bottom: 8px solid #E30613; }
-        .touch { border-bottom: 8px solid #00A1E4; }
-        .btn-back { background: #333; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; cursor: pointer; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #f4f7f6; color: #333; text-align: center; }
+        .header { background: #1a1a1a; color: white; padding: 20px; font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        .container { padding: 15px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; transition: 0.2s; border: 1px solid #eee; }
+        .card:active { transform: scale(0.96); background: #fafafa; }
+        .alfa { border-top: 5px solid #E30613; }
+        .touch { border-top: 5px solid #00A1E4; }
+        .btn-back { background: #444; color: white; border: none; padding: 10px 25px; border-radius: 8px; margin-bottom: 15px; cursor: pointer; width: 100%; font-size: 16px; }
         .hidden { display: none; }
-        .list-item { background: white; margin: 10px; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .price { color: green; font-weight: bold; }
+        .product-item { background: white; margin: 8px 0; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border-right: 5px solid #2ecc71; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .price { color: #2ecc71; font-weight: bold; font-size: 18px; }
+        .order-btn { background: #2ecc71; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -23,48 +25,110 @@
 <div class="header">BAROUD SERVICES</div>
 
 <div id="main-menu" class="container">
-    <h3 style="margin-top:20px;">اختر الشبكة</h3>
+    <h3 style="margin: 15px 0;">اختر الشبكة</h3>
     <div class="grid">
         <div class="card alfa" onclick="showSubMenu('alfa')">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Alfa_Lebanon_logo.svg/1024px-Alfa_Lebanon_logo.svg.png" width="50"><br>
-            ALFA
+            <strong>ALFA</strong>
         </div>
         <div class="card touch" onclick="showSubMenu('touch')">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d7/Touch_Lebanon_logo.svg/1200px-Touch_Lebanon_logo.svg.png" width="50"><br>
-            TOUCH
+            <strong>TOUCH</strong>
         </div>
     </div>
 </div>
 
 <div id="sub-menu" class="container hidden">
-    <button class="btn-back" onclick="goBack('main-menu')">رجوع</button>
-    <h3 id="operator-title"></h3>
-    <div id="sections-list" class="grid">
-        </div>
+    <button class="btn-back" onclick="goBack()">🔙 العودة للرئيسية</button>
+    <h3 id="menu-title" style="margin-bottom: 15px;"></h3>
+    <div id="display-area">
+        <div id="sections-list" class="grid"></div>
+        <div id="products-list"></div>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-    const data = {
+    // إعدادات Supabase الخاصة بك
+    const SUPABASE_URL = 'https://ttqvxahhxylkpioxzzfm.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0cXZ4eGFoeHlsa3Bpb3h6emZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzY4MjMsImV4cCI6MjA5Mzc1MjgyM30.uxtuxKOEQFONbwqy8C6euI4f5V0mzhlb0GZ79Id03Lw';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const categories = {
         alfa: ['Cards', 'Credit', 'Mobile Internet', 'U-Share Bundles'],
         touch: ['Credit', 'Cards', 'Validity', 'Mobile Internet']
     };
 
+    let currentOperator = '';
+
     function showSubMenu(op) {
+        currentOperator = op;
         document.getElementById('main-menu').classList.add('hidden');
         document.getElementById('sub-menu').classList.remove('hidden');
-        document.getElementById('operator-title').innerText = "خدمات " + op.toUpperCase();
-        
-        let list = document.getElementById('sections-list');
+        document.getElementById('menu-title').innerText = "خدمات " + op.toUpperCase();
+        renderSections(op);
+    }
+
+    function renderSections(op) {
+        const list = document.getElementById('sections-list');
+        const pList = document.getElementById('products-list');
         list.innerHTML = '';
-        
-        data[op].forEach(item => {
-            list.innerHTML += `<div class="card" onclick="alert('سوف يتم ربط ${item} بـ Supabase قريباً')">${item}</div>`;
+        pList.innerHTML = '';
+        list.classList.remove('hidden');
+
+        categories[op].forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerText = item;
+            card.onclick = () => fetchProducts(item);
+            list.appendChild(card);
         });
     }
 
-    function goBack(target) {
-        document.getElementById('sub-menu').classList.add('hidden');
-        document.getElementById('main-menu').classList.remove('hidden');
+    async function fetchProducts(category) {
+        document.getElementById('menu-title').innerText = category;
+        document.getElementById('sections-list').classList.add('hidden');
+        const pList = document.getElementById('products-list');
+        pList.innerHTML = '<p>جاري التحميل...</p>';
+
+        const { data, error } = await _supabase
+            .from('products')
+            .select('*')
+            .eq('operator', currentOperator)
+            .eq('category', category);
+
+        pList.innerHTML = '';
+        if (error || !data.length) {
+            pList.innerHTML = '<p>لا يوجد منتجات حالياً في هذا القسم.</p>';
+            return;
+        }
+
+        data.forEach(p => {
+            pList.innerHTML += `
+                <div class="product-item">
+                    <div>
+                        <div style="font-weight:bold;">${p.name}</div>
+                    </div>
+                    <div style="text-align:left;">
+                        <div class="price">$${p.price_usd}</div>
+                        <button class="order-btn" onclick="order('${p.name}')">طلب</button>
+                    </div>
+                </div>`;
+        });
+    }
+
+    function goBack() {
+        const sectionsHidden = document.getElementById('sections-list').classList.contains('hidden');
+        if (sectionsHidden) {
+            renderSections(currentOperator);
+            document.getElementById('menu-title').innerText = "خدمات " + currentOperator.toUpperCase();
+        } else {
+            document.getElementById('sub-menu').classList.add('hidden');
+            document.getElementById('main-menu').classList.remove('hidden');
+        }
+    }
+
+    function order(name) {
+        alert("سيتم فتح صفحة الدفع لطلب: " + name);
     }
 </script>
 

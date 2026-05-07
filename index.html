@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baroud Services</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; background: #f0f2f5; text-align: center; }
+        .header { background: #1a1a1a; color: white; padding: 20px; font-size: 24px; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; }
+        .card:active { transform: scale(0.95); }
+        .alfa { border-bottom: 8px solid #E30613; }
+        .touch { border-bottom: 8px solid #00A1E4; }
+        .btn-back { background: #333; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px; cursor: pointer; }
+        .hidden { display: none; }
+        .list-item { background: white; margin: 10px; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .price { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="header">BAROUD SERVICES</div>
+
+<div id="main-menu" class="container">
+    <h3 style="margin-top:20px;">اختر الشبكة</h3>
+    <div class="grid">
+        <div class="card alfa" onclick="showSubMenu('alfa')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Alfa_Lebanon_logo.svg/1024px-Alfa_Lebanon_logo.svg.png" width="50"><br>
+            ALFA
+        </div>
+        <div class="card touch" onclick="showSubMenu('touch')">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d7/Touch_Lebanon_logo.svg/1200px-Touch_Lebanon_logo.svg.png" width="50"><br>
+            TOUCH
+        </div>
+    </div>
+</div>
+
+<div id="sub-menu" class="container hidden">
+    <button class="btn-back" onclick="goBack('main-menu')">رجوع</button>
+    <h3 id="operator-title"></h3>
+    <div id="sections-list" class="grid">
+        </div>
+</div>
+
+<script>
+    const data = {
+        alfa: ['Cards', 'Credit', 'Mobile Internet', 'U-Share Bundles'],
+        touch: ['Credit', 'Cards', 'Validity', 'Mobile Internet']
+    };
+
+    function showSubMenu(op) {
+        document.getElementById('main-menu').classList.add('hidden');
+        document.getElementById('sub-menu').classList.remove('hidden');
+        document.getElementById('operator-title').innerText = "خدمات " + op.toUpperCase();
+        
+        let list = document.getElementById('sections-list');
+        list.innerHTML = '';
+        
+        data[op].forEach(item => {
+            list.innerHTML += `<div class="card" onclick="alert('سوف يتم ربط ${item} بـ Supabase قريباً')">${item}</div>`;
+        });
+    }
+
+    function goBack(target) {
+        document.getElementById('sub-menu').classList.add('hidden');
+        document.getElementById('main-menu').classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>

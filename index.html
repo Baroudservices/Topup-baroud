@@ -6,109 +6,29 @@
     <title>Baroud Services | بارود للخدمات</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-red: #E30613;
-            --primary-blue: #00A1E4;
-            --success: #2ecc71;
-            --dark-bg: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #ffffff;
-            --text-dim: #b3b3b3;
-        }
+        :root { --main-dark: #121212; --card-bg: #1e1e1e; --accent: #2ecc71; --text-dim: #b3b3b3; }
+        body { font-family: 'Tajawal', sans-serif; margin: 0; background: var(--main-dark); color: white; text-align: center; }
+        .header { background: linear-gradient(to bottom, #1a1a1a, #000); padding: 25px; font-size: 24px; font-weight: bold; border-bottom: 3px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+        
+        /* تصميم الشبكة الرئيسي */
+        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .card-op { background: var(--card-bg); padding: 30px 10px; border-radius: 20px; cursor: pointer; transition: 0.3s; border: 1px solid #333; font-weight: bold; font-size: 20px; }
+        .alfa { color: #E30613; border-bottom: 5px solid #E30613; }
+        .touch { color: #00A1E4; border-bottom: 5px solid #00A1E4; }
+        .card-op:active { transform: scale(0.95); }
 
-        body { 
-            font-family: 'Tajawal', sans-serif; 
-            margin: 0; 
-            background: var(--dark-bg); 
-            color: var(--text-main); 
-            text-align: center;
-        }
-
-        .header { 
-            background: linear-gradient(145deg, #1a1a1a, #000); 
-            padding: 30px 20px; 
-            font-size: 26px; 
-            font-weight: bold; 
-            letter-spacing: 2px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            border-bottom: 2px solid var(--success);
-            text-transform: uppercase;
-        }
-
-        .container { padding: 20px; max-width: 600px; margin: auto; }
-
-        .grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
-            margin-top: 20px; 
-        }
-
-        /* كروت الشركات */
-        .card { 
-            background: var(--card-bg); 
-            padding: 25px 15px; 
-            border-radius: 16px; 
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3); 
-            cursor: pointer; 
-            transition: all 0.3s ease; 
-            border: 1px solid #333;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .card:hover { transform: translateY(-5px); border-color: #555; }
-        .card:active { transform: scale(0.95); }
-
-        .alfa { border-bottom: 4px solid var(--primary-red); color: var(--primary-red); }
-        .touch { border-bottom: 4px solid var(--primary-blue); color: var(--primary-blue); }
-
-        /* زر العودة */
-        .btn-back { 
-            background: transparent; 
-            color: var(--text-dim); 
-            border: 1px solid #444; 
-            padding: 12px; 
-            border-radius: 10px; 
-            margin-bottom: 20px; 
-            cursor: pointer; 
-            width: 100%; 
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        .btn-back:hover { background: #333; color: #fff; }
-
+        /* تصميم كروت المنتجات */
+        #products-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+        .product-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #333; display: flex; flex-direction: column; }
+        .product-img { width: 100%; height: 100px; object-fit: cover; background: #252525; }
+        .p-info { padding: 10px; text-align: right; flex-grow: 1; }
+        .p-name { font-size: 14px; font-weight: bold; height: 40px; overflow: hidden; }
+        .p-price { color: var(--accent); font-size: 18px; font-weight: bold; margin: 5px 0; }
+        
+        .order-btn { background: var(--accent); color: white; border: none; width: 100%; padding: 8px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-back { background: transparent; color: var(--text-dim); border: 1px solid #444; padding: 10px; border-radius: 10px; width: 100%; margin-bottom: 20px; cursor: pointer; }
         .hidden { display: none; }
-
-        /* كرت المنتج */
-        .product-item { 
-            background: var(--card-bg); 
-            margin: 12px 0; 
-            padding: 18px; 
-            border-radius: 14px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-left: 4px solid var(--success);
-            transition: 0.3s;
-        }
-
-        .price { color: var(--success); font-weight: bold; font-size: 20px; }
-        
-        .order-btn { 
-            background: var(--success); 
-            color: white; 
-            border: none; 
-            padding: 10px 22px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.2);
-        }
-        
-        .order-btn:hover { background: #27ae60; box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4); }
-
-        .loading { padding: 50px; color: var(--success); font-size: 18px; }
     </style>
 </head>
 <body>
@@ -116,37 +36,25 @@
 <div class="header">BAROUD SERVICES</div>
 
 <div id="main-menu" class="container">
-    <h3 style="margin-bottom: 25px; color: var(--text-dim);">اختر الشبكة للمتابعة</h3>
-    <div class="grid">
-        <div class="card alfa" onclick="showSubMenu('alfa')">
-            ALFA
-        </div>
-        <div class="card touch" onclick="showSubMenu('touch')">
-            TOUCH
-        </div>
+    <h3 style="color: var(--text-dim);">اختر الشبكة</h3>
+    <div class="grid-menu">
+        <div class="card-op alfa" onclick="showSubMenu('alfa')">ALFA</div>
+        <div class="card-op touch" onclick="showSubMenu('touch')">TOUCH</div>
     </div>
 </div>
 
 <div id="sub-menu" class="container hidden">
-    <button class="btn-back" onclick="goBack()">← العودة للرئيسية</button>
+    <button class="btn-back" onclick="goBack()">← العودة</button>
     <h3 id="menu-title" style="margin-bottom: 20px;"></h3>
-    <div id="display-area">
-        <div id="sections-list" class="grid"></div>
-        <div id="products-list"></div>
-    </div>
+    <div id="sections-list" class="grid-menu"></div>
+    <div id="products-list"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
     const SUPABASE_URL = 'https://ttqvxahhxylkpioxzzfm.supabase.co';
     const SUPABASE_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0cXZ4eGFoeHlsa3Bpb3h6emZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzY4MjMsImV4cCI6MjA5Mzc1MjgyM30.uxtuxKOEQFONbwqy8C6euI4f5V0mzhlb0GZ79Id03Lw';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    const categories = {
-        alfa: ['Cards', 'Mobile Internet', 'U-Share Bundles'],
-        touch: ['Cards', 'Validity', 'Mobile Internet']
-    };
 
     let currentOperator = '';
 
@@ -154,54 +62,41 @@
         currentOperator = op;
         document.getElementById('main-menu').classList.add('hidden');
         document.getElementById('sub-menu').classList.remove('hidden');
-        document.getElementById('menu-title').innerText = "خدمات " + op.toUpperCase();
         renderSections(op);
     }
 
     function renderSections(op) {
         const list = document.getElementById('sections-list');
         const pList = document.getElementById('products-list');
-        list.innerHTML = '';
-        pList.innerHTML = '';
+        list.innerHTML = ''; pList.innerHTML = '';
         list.classList.remove('hidden');
-
+        const categories = {
+            alfa: ['Cards', 'Mobile Internet', 'U-Share Bundles'],
+            touch: ['Cards', 'Validity', 'Mobile Internet']
+        };
         categories[op].forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerText = item;
-            card.onclick = () => fetchProducts(item);
-            list.appendChild(card);
+            const d = document.createElement('div');
+            d.className = 'card-op';
+            d.style.fontSize = '15px';
+            d.innerText = item;
+            d.onclick = () => fetchProducts(item);
+            list.appendChild(d);
         });
     }
 
     async function fetchProducts(category) {
-        const list = document.getElementById('sections-list');
+        document.getElementById('sections-list').classList.add('hidden');
         const pList = document.getElementById('products-list');
-        document.getElementById('menu-title').innerText = category;
-        list.classList.add('hidden');
-        pList.innerHTML = '<div class="loading">جاري جلب البيانات...</div>';
-
-        const { data, error } = await _supabase
-            .from('products')
-            .select('*')
-            .eq('operator', currentOperator)
-            .eq('category', category);
-
+        pList.innerHTML = '<p>جاري التحميل...</p>';
+        const { data } = await _supabase.from('products').select('*').eq('operator', currentOperator).eq('category', category);
         pList.innerHTML = '';
-        if (error || !data || data.length === 0) {
-            pList.innerHTML = '<p style="color: #888;">لا يوجد عروض حالياً.</p>';
-            return;
-        }
-
         data.forEach(p => {
             pList.innerHTML += `
-                <div class="product-item">
-                    <div style="text-align: right;">
-                        <div style="font-weight:bold; font-size: 17px;">${p.name}</div>
-                        <div style="font-size: 13px; color: var(--text-dim);">${currentOperator.toUpperCase()}</div>
-                    </div>
-                    <div style="text-align:left;">
-                        <div class="price">$${parseFloat(p.price_usd).toFixed(2)}</div>
+                <div class="product-card">
+                    <img src="${p.image_url}" class="product-img">
+                    <div class="p-info">
+                        <div class="p-name">${p.name}</div>
+                        <div class="p-price">$${parseFloat(p.price_usd).toFixed(2)}</div>
                         <button class="order-btn" onclick="order('${p.name}', '${p.price_usd}')">طلب</button>
                     </div>
                 </div>`;
@@ -209,20 +104,17 @@
     }
 
     function goBack() {
-        const sectionsHidden = document.getElementById('sections-list').classList.contains('hidden');
-        if (sectionsHidden) {
+        if (document.getElementById('sections-list').classList.contains('hidden')) {
             renderSections(currentOperator);
-            document.getElementById('menu-title').innerText = "خدمات " + currentOperator.toUpperCase();
         } else {
             document.getElementById('sub-menu').classList.add('hidden');
             document.getElementById('main-menu').classList.remove('hidden');
         }
     }
 
-    function order(productName, price) {
-        const myNumber = "96170000000"; 
-        const text = `مرحباً بارود، أريد طلب:\n\n💎 الخدمة: ${productName}\n💵 السعر: $${price}\n✅ الشبكة: ${currentOperator.toUpperCase()}`;
-        window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(text)}`, '_blank');
+    function order(name, price) {
+        const msg = encodeURIComponent(`مرحباً بارود، أريد طلب:\nالخدمة: ${name}\nالسعر: $${price}`);
+        window.open(`https://wa.me/96170000000?text=${msg}`, '_blank');
     }
 </script>
 </body>

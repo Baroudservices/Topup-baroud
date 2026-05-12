@@ -6,28 +6,112 @@
     <title>Baroud Services | بارود للخدمات</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --main-dark: #121212; --card-bg: #1e1e1e; --accent: #2ecc71; --text-dim: #b3b3b3; }
-        body { font-family: 'Tajawal', sans-serif; margin: 0; background: var(--main-dark); color: white; text-align: center; }
-        .header { background: linear-gradient(to bottom, #1a1a1a, #000); padding: 25px; font-size: 24px; font-weight: bold; border-bottom: 3px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .container { padding: 15px; max-width: 600px; margin: auto; }
-        
-        /* تصميم الشبكة الرئيسي */
-        .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .card-op { background: var(--card-bg); padding: 30px 10px; border-radius: 20px; cursor: pointer; transition: 0.3s; border: 1px solid #333; font-weight: bold; font-size: 20px; }
-        .alfa { color: #E30613; border-bottom: 5px solid #E30613; }
-        .touch { color: #00A1E4; border-bottom: 5px solid #00A1E4; }
-        .card-op:active { transform: scale(0.95); }
+        :root {
+            --alfa-red: #E30613;
+            --touch-blue: #00A1E4;
+            --bg-dark: #0f0f0f;
+            --card-dark: #1a1a1a;
+            --text-gold: #f1c40f;
+            --success: #2ecc71;
+        }
 
-        /* تصميم كروت المنتجات */
-        #products-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
-        .product-card { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #333; display: flex; flex-direction: column; }
-        .product-img { width: 100%; height: 100px; object-fit: cover; background: #252525; }
-        .p-info { padding: 10px; text-align: right; flex-grow: 1; }
-        .p-name { font-size: 14px; font-weight: bold; height: 40px; overflow: hidden; }
-        .p-price { color: var(--accent); font-size: 18px; font-weight: bold; margin: 5px 0; }
+        body { 
+            font-family: 'Tajawal', sans-serif; 
+            margin: 0; 
+            background-color: var(--bg-dark); 
+            color: white; 
+            text-align: center;
+        }
+
+        /* رأس الصفحة المطور */
+        .header { 
+            background: linear-gradient(145deg, #1d1d1d, #000); 
+            padding: 30px; 
+            font-size: 24px; 
+            font-weight: bold; 
+            border-bottom: 2px solid var(--success);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            letter-spacing: 1px;
+        }
+
+        .container { padding: 20px; max-width: 500px; margin: auto; }
+
+        /* تنسيق الشبكة */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+
+        /* الكروت الأساسية */
+        .card { 
+            background: var(--card-dark); 
+            padding: 25px 15px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: #555; }
+        .card:active { transform: scale(0.95); }
+
+        .alfa { border-bottom: 5px solid var(--alfa-red); color: var(--alfa-red); }
+        .touch { border-bottom: 5px solid var(--touch-blue); color: var(--touch-blue); }
+
+        /* زر العودة */
+        .btn-back { 
+            background: #222; 
+            color: #bbb; 
+            border: 1px solid #444; 
+            padding: 12px; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* كرت المنتج الجديد */
+        .product-card {
+            background: var(--card-dark);
+            border-radius: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-align: right;
+        }
+
+        .product-header {
+            background: #252525;
+            padding: 15px;
+            border-radius: 18px 18px 0 0;
+            font-weight: bold;
+            font-size: 17px;
+            border-bottom: 1px solid #333;
+        }
+
+        .product-body {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .p-price { color: var(--success); font-size: 22px; font-weight: bold; }
         
-        .order-btn { background: var(--accent); color: white; border: none; width: 100%; padding: 8px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .btn-back { background: transparent; color: var(--text-dim); border: 1px solid #444; padding: 10px; border-radius: 10px; width: 100%; margin-bottom: 20px; cursor: pointer; }
+        .order-btn { 
+            background: var(--success); 
+            color: white; 
+            border: none; 
+            padding: 10px 25px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+        }
+
         .hidden { display: none; }
     </style>
 </head>
@@ -36,24 +120,30 @@
 <div class="header">BAROUD SERVICES</div>
 
 <div id="main-menu" class="container">
-    <h3 style="color: var(--text-dim);">اختر الشبكة</h3>
-    <div class="grid-menu">
-        <div class="card-op alfa" onclick="showSubMenu('alfa')">ALFA</div>
-        <div class="card-op touch" onclick="showSubMenu('touch')">TOUCH</div>
+    <h3 style="color: #888; margin-bottom: 25px;">اختر شبكة الاتصال</h3>
+    <div class="grid">
+        <div class="card alfa" onclick="showSubMenu('alfa')">
+            <div style="font-size: 14px; opacity: 0.7;">الخدمة</div>
+            <strong>ALFA</strong>
+        </div>
+        <div class="card touch" onclick="showSubMenu('touch')">
+            <div style="font-size: 14px; opacity: 0.7;">الخدمة</div>
+            <strong>TOUCH</strong>
+        </div>
     </div>
 </div>
 
 <div id="sub-menu" class="container hidden">
-    <button class="btn-back" onclick="goBack()">← العودة</button>
-    <h3 id="menu-title" style="margin-bottom: 20px;"></h3>
-    <div id="sections-list" class="grid-menu"></div>
-    <div id="products-list"></div>
+    <button class="btn-back" onclick="goBack()">← العودة للرئيسية</button>
+    <h3 id="menu-title" style="margin-bottom: 20px; color: #f1c40f;"></h3>
+    <div id="sections-list" class="grid"></div>
+    <div id="products-list" style="margin-top: 10px;"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
     const SUPABASE_URL = 'https://ttqvxahhxylkpioxzzfm.supabase.co';
-    const SUPABASE_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0cXZ4eGFoeHlsa3Bpb3h6emZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzY4MjMsImV4cCI6MjA5Mzc1MjgyM30.uxtuxKOEQFONbwqy8C6euI4f5V0mzhlb0GZ79Id03Lw';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0cXZ4eGFoeHlsa3Bpb3h6emZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzY4MjMsImV4cCI6MjA5Mzc1MjgyM30.uxtuxKOEQFONbwqy8C6euI4f5V0mzhlb0GZ79Id03Lw';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let currentOperator = '';
@@ -62,6 +152,7 @@
         currentOperator = op;
         document.getElementById('main-menu').classList.add('hidden');
         document.getElementById('sub-menu').classList.remove('hidden');
+        document.getElementById('menu-title').innerText = "خدمات " + op.toUpperCase();
         renderSections(op);
     }
 
@@ -70,34 +161,40 @@
         const pList = document.getElementById('products-list');
         list.innerHTML = ''; pList.innerHTML = '';
         list.classList.remove('hidden');
-        const categories = {
-            alfa: ['Cards', 'Mobile Internet', 'U-Share Bundles'],
-            touch: ['Cards', 'Validity', 'Mobile Internet']
-        };
-        categories[op].forEach(item => {
-            const d = document.createElement('div');
-            d.className = 'card-op';
-            d.style.fontSize = '15px';
-            d.innerText = item;
-            d.onclick = () => fetchProducts(item);
-            list.appendChild(d);
+
+        const cats = op === 'alfa' ? ['Cards', 'Mobile Internet', 'U-Share Bundles'] : ['Cards', 'Validity', 'Mobile Internet'];
+
+        cats.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.padding = "20px 10px";
+            card.innerText = item;
+            card.onclick = () => fetchProducts(item);
+            list.appendChild(card);
         });
     }
 
     async function fetchProducts(category) {
+        document.getElementById('menu-title').innerText = category;
         document.getElementById('sections-list').classList.add('hidden');
         const pList = document.getElementById('products-list');
-        pList.innerHTML = '<p>جاري التحميل...</p>';
-        const { data } = await _supabase.from('products').select('*').eq('operator', currentOperator).eq('category', category);
+        pList.innerHTML = '<p style="color: #666;">جاري تحميل العروض...</p>';
+
+        const { data, error } = await _supabase.from('products').select('*').eq('operator', currentOperator).eq('category', category);
+
         pList.innerHTML = '';
+        if (error || !data.length) {
+            pList.innerHTML = '<p>لا يوجد عروض حالياً.</p>';
+            return;
+        }
+
         data.forEach(p => {
             pList.innerHTML += `
                 <div class="product-card">
-                    <img src="${p.image_url}" class="product-img">
-                    <div class="p-info">
-                        <div class="p-name">${p.name}</div>
+                    <div class="product-header">${p.name}</div>
+                    <div class="product-body">
                         <div class="p-price">$${parseFloat(p.price_usd).toFixed(2)}</div>
-                        <button class="order-btn" onclick="order('${p.name}', '${p.price_usd}')">طلب</button>
+                        <button class="order-btn" onclick="order('${p.name}', '${p.price_usd}')">طلب الآن</button>
                     </div>
                 </div>`;
         });
@@ -106,6 +203,7 @@
     function goBack() {
         if (document.getElementById('sections-list').classList.contains('hidden')) {
             renderSections(currentOperator);
+            document.getElementById('menu-title').innerText = "خدمات " + currentOperator.toUpperCase();
         } else {
             document.getElementById('sub-menu').classList.add('hidden');
             document.getElementById('main-menu').classList.remove('hidden');
@@ -113,8 +211,9 @@
     }
 
     function order(name, price) {
-        const msg = encodeURIComponent(`مرحباً بارود، أريد طلب:\nالخدمة: ${name}\nالسعر: $${price}`);
-        window.open(`https://wa.me/96170000000?text=${msg}`, '_blank');
+        const phone = "96170000000"; // حط رقمك هون
+        const msg = encodeURIComponent(`مرحباً، أريد طلب:\nالخدمة: ${name}\nالسعر: $${price}`);
+        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
     }
 </script>
 </body>

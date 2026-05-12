@@ -3,54 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم Baroud</title>
+    <title>لوحة تحكم Baroud | إضافة منتجات</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: #f0f2f5; text-align: right; }
-        .form-container { background: white; padding: 20px; border-radius: 15px; max-width: 500px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .header-title { text-align: center; color: #1a1a1a; margin-bottom: 20px; border-bottom: 2px solid #2ecc71; padding-bottom: 10px; }
-        label { font-weight: bold; display: block; margin-top: 15px; color: #555; }
-        input, select, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 16px; }
-        input:focus, select:focus { border-color: #2ecc71; outline: none; box-shadow: 0 0 5px rgba(46, 204, 113, 0.3); }
-        button { background: #2ecc71; color: white; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; margin-top: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 20px; text-align: right; }
+        .form-container { background: white; padding: 25px; border-radius: 15px; max-width: 500px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        label { font-weight: bold; color: #555; display: block; margin-top: 15px; }
+        input, select, button { width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; font-size: 16px; }
+        button { background: #2ecc71; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 25px; transition: 0.3s; }
         button:hover { background: #27ae60; }
-        button:active { transform: scale(0.98); }
-        .status-msg { text-align: center; margin-top: 10px; font-weight: bold; }
+        .status { text-align: center; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <h2 class="header-title">إضافة منتج جديد 🚀</h2>
+    <h2>إضافة منتج جديد 🚀</h2>
     
-    <label>الشركة (Operator):</label>
+    <label>الشركة:</label>
     <select id="op-select" onchange="updateCategories()">
         <option value="alfa">Alfa</option>
         <option value="touch">Touch</option>
     </select>
 
-    <label>القسم (Category):</label>
+    <label>القسم:</label>
     <select id="cat-select"></select>
 
-    <label>اسم المنتج (Name):</label>
-    <input type="text" id="p-name" placeholder="مثلاً: 1.5GB أو 30 Days">
+    <label>اسم المنتج (مثلاً: 1.5GB):</label>
+    <input type="text" id="p-name" placeholder="أدخل الاسم">
 
-    <label>السعر بالدولار (Price $):</label>
+    <label>السعر بالدولار ($):</label>
     <input type="number" step="0.01" id="p-price" placeholder="0.00">
 
-    <button id="add-btn" onclick="addProduct()">إضافة للمتجر الآن</button>
-    <div id="status" class="status-msg"></div>
+    <label>رابط صورة المنتج (URL):</label>
+    <input type="text" id="p-image" placeholder="ضع رابط الصورة هنا">
+
+    <button id="add-btn" onclick="addProduct()">إضافة للمتجر ✅</button>
+    <div id="status" class="status"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-    // الإعدادات الخاصة بك
     const SUPABASE_URL = 'https://ttqvxahhxylkpioxzzfm.supabase.co';
     const SUPABASE_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0cXZ4eGFoeHlsa3Bpb3h6emZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzY4MjMsImV4cCI6MjA5Mzc1MjgyM30.uxtuxKOEQFONbwqy8C6euI4f5V0mzhlb0GZ79Id03Lw';
-    
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // الأقسام حسب الملف الأصلي
     const cats = {
         alfa: ['Cards', 'Mobile Internet', 'U-Share Bundles'],
         touch: ['Cards', 'Validity', 'Mobile Internet']
@@ -61,10 +58,7 @@
         const catSelect = document.getElementById('cat-select');
         catSelect.innerHTML = '';
         cats[op].forEach(c => {
-            const option = document.createElement('option');
-            option.value = c;
-            option.textContent = c;
-            catSelect.appendChild(option);
+            catSelect.innerHTML += `<option value="${c}">${c}</option>`;
         });
     }
 
@@ -73,44 +67,30 @@
         const cat = document.getElementById('cat-select').value;
         const name = document.getElementById('p-name').value;
         const price = document.getElementById('p-price').value;
+        const img = document.getElementById('p-image').value || 'https://via.placeholder.com/150';
         const btn = document.getElementById('add-btn');
-        const status = document.getElementById('status');
 
-        if(!name || !price) {
-            alert("عبّي البيانات يا معلم!");
-            return;
-        }
+        if(!name || !price) return alert("عبّي البيانات يا معلم!");
 
-        // تعطيل الزر أثناء التحميل
         btn.disabled = true;
-        btn.innerText = "جاري الإضافة...";
-        status.innerText = "";
+        btn.innerText = "جاري الحفظ...";
 
         const { error } = await _supabase
             .from('products')
-            .insert([{ 
-                operator: op, 
-                category: cat, 
-                name: name, 
-                price_usd: parseFloat(price) 
-            }]);
+            .insert([{ operator: op, category: cat, name: name, price_usd: parseFloat(price), image_url: img }]);
 
         btn.disabled = false;
-        btn.innerText = "إضافة للمتجر الآن";
+        btn.innerText = "إضافة للمتجر ✅";
 
         if (error) {
-            status.style.color = "red";
-            status.innerText = "❌ خطأ: " + error.message;
+            document.getElementById('status').innerText = "خطأ: " + error.message;
         } else {
-            status.style.color = "green";
-            status.innerText = "✅ تمت الإضافة بنجاح!";
-            // مسح الخانات بعد النجاح
+            document.getElementById('status').innerText = "تمت الإضافة بنجاح!";
             document.getElementById('p-name').value = '';
             document.getElementById('p-price').value = '';
+            document.getElementById('p-image').value = '';
         }
     }
-
-    // تشغيل القائمة عند فتح الصفحة
     updateCategories();
 </script>
 </body>

@@ -10,8 +10,7 @@
         h2 { text-align: center; color: #333; margin-bottom: 20px; }
         label { font-weight: bold; display: block; margin-top: 15px; color: #555; }
         input, select { width: 100%; padding: 12px; margin-top: 5px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
-        button { width: 100%; background: #2ecc71; color: white; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 18px; transition: 0.3s; }
-        button:active { background: #27ae60; transform: scale(0.98); }
+        button { width: 100%; background: #2ecc71; color: white; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 18px; }
         #status { text-align: center; margin-top: 15px; font-weight: bold; font-size: 14px; padding: 10px; border-radius: 8px; }
     </style>
 </head>
@@ -19,7 +18,6 @@
 
 <div class="form-container">
     <h2>إضافة منتج جديد 🚀</h2>
-    
     <label>الشركة:</label>
     <select id="op-select" onchange="updateCategories()">
         <option value="alfa">Alfa</option>
@@ -30,13 +28,13 @@
     <select id="cat-select"></select>
 
     <label>اسم المنتج:</label>
-    <input type="text" id="p-name" placeholder="مثلاً: 10GB أو 30 Days">
+    <input type="text" id="p-name" placeholder="مثلاً: 10GB">
 
     <label>السعر بالدولار ($):</label>
     <input type="number" step="0.01" id="p-price" placeholder="0.00">
 
-    <label>رابط صورة المنتج (اختياري):</label>
-    <input type="text" id="p-img" placeholder="ضع رابط الصورة هنا">
+    <label>رابط الصورة (اختياري):</label>
+    <input type="text" id="p-img" placeholder="https://image-link.com">
 
     <button id="submit-btn" onclick="addProduct()">إضافة للمتجر ✅</button>
     <div id="status"></div>
@@ -44,7 +42,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // الإعدادات المباشرة مع الـ Key تبعك
     const SUPABASE_URL = 'https://ttqvxahhxylkpioxzzfm.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0cXZ4eGFoeHlsa3Bpb3h6emZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzY4MjMsImV4cCI6MjA5Mzc1MjgyM30.uxtuxKOEQFONbwqy8C6euI4f5V0mzhlb0GZ79Id03Lw';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -68,16 +65,14 @@
         const price = document.getElementById('p-price').value;
 
         if(!name || !price) {
-            status.innerText = "⚠️ يرجى ملء الاسم والسعر!";
-            status.style.background = "#fff3cd";
-            status.style.color = "#856404";
+            status.innerText = "⚠️ يرجى تعبئة الخانات!";
+            status.style.color = "orange";
             return;
         }
 
         btn.disabled = true;
-        status.innerText = "⏳ جاري محاولة الإضافة...";
-        status.style.background = "#d1ecf1";
-        status.style.color = "#0c5460";
+        status.innerText = "⏳ جاري الإضافة...";
+        status.style.color = "blue";
 
         try {
             const { error } = await _supabase.from('products').insert([{
@@ -90,28 +85,20 @@
 
             if (error) {
                 status.innerText = "❌ خطأ قاعدة بيانات: " + error.message;
-                status.style.background = "#f8d7da";
-                status.style.color = "#721c24";
-                console.error(error);
+                status.style.color = "red";
             } else {
-                status.innerText = "✅ تمت الإضافة بنجاح!";
-                status.style.background = "#d4edda";
-                status.style.color = "#155724";
-                // مسح الخانات بعد النجاح
+                status.innerText = "✅ تم بنجاح!";
+                status.style.color = "green";
                 document.getElementById('p-name').value = '';
                 document.getElementById('p-price').value = '';
-                document.getElementById('p-img').value = '';
             }
         } catch (e) {
             status.innerText = "❌ فشل الاتصال: " + e.message;
-            status.style.background = "#f8d7da";
-            status.style.color = "#721c24";
+            status.style.color = "red";
         } finally {
             btn.disabled = false;
         }
     }
-
-    // لتشغيل القائمة عند أول فتح للصفحة
     updateCategories();
 </script>
 </body>

@@ -49,16 +49,54 @@
         cats[op].forEach(c => sel.innerHTML += `<option value="${c}">${c}</option>`);
     }
     async function addProduct() {
-        const data = {
-            operator: document.getElementById('op-select').value,
-            category: document.getElementById('cat-select').value,
-            name: document.getElementById('p-name').value,
-            price_usd: parseFloat(document.getElementById('p-price').value),
-            image_url: document.getElementById('p-img').value || 'https://via.placeholder.com/150'
-        };
-        const { error } = await _supabase.from('products').insert([data]);
-        document.getElementById('status').innerText = error ? "خطأ: " + error.message : "✅ تمت الإضافة بنجاح!";
+    const status = document.getElementById('status');
+    const btn = document.querySelector('button');
+    
+    // جلب البيانات
+    const name = document.getElementById('p-name').value;
+    const price = document.getElementById('p-price').value;
+    
+    if(!name || !price) {
+        status.style.color = "orange";
+        status.innerText = "⚠️ يرجى ملء الاسم والسعر!";
+        return;
     }
+
+    const data = {
+        operator: document.getElementById('op-select').value,
+        category: document.getElementById('cat-select').value,
+        name: name,
+        price_usd: parseFloat(price),
+        image_url: document.getElementById('p-img').value || 'https://via.placeholder.com/150'
+    };
+
+    try {
+        status.style.color = "blue";
+        status.innerText = "⏳ جاري محاولة الاتصال...";
+        btn.disabled = true;
+
+        const { error } = await _supabase.from('products').insert([data]);
+
+        if (error) {
+            status.style.color = "red";
+            status.innerText = "❌ خطأ من قاعدة البيانات: " + error.message;
+            console.error("Supabase Error:", error);
+        } else {
+            status.style.color = "green";
+            status.innerText = "✅ تم بنجاح! المنتج الآن في المتجر.";
+            document.getElementById('p-name').value = '';
+            document.getElementById('p-price').value = '';
+            document.getElementById('p-img').value = '';
+        }
+    } catch (err) {
+        status.style.color = "red";
+        status.innerText = "❌ فشل الاتصال بالإنترنت أو رابط الـ API خطأ";
+        console.error("Fetch Error:", err);
+    } finally {
+        btn.disabled = false;
+    }
+}
+
     updateCategories();
 </script>
 </body>

@@ -3,141 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baroud Services | بارود للخدمات</title>
+    <title>Baroud Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --alfa-red: #E30613;
-            --touch-blue: #00A1E4;
-            --bg-dark: #0f0f0f;
-            --card-dark: #1a1a1a;
-            --text-gold: #f1c40f;
-            --success: #2ecc71;
-        }
-
-        body { 
-            font-family: 'Tajawal', sans-serif; 
-            margin: 0; 
-            background-color: var(--bg-dark); 
-            color: white; 
-            text-align: center;
-        }
-
-        /* رأس الصفحة المطور */
-        .header { 
-            background: linear-gradient(145deg, #1d1d1d, #000); 
-            padding: 30px; 
-            font-size: 24px; 
-            font-weight: bold; 
-            border-bottom: 2px solid var(--success);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-            letter-spacing: 1px;
-        }
-
-        .container { padding: 20px; max-width: 500px; margin: auto; }
-
-        /* تنسيق الشبكة */
+        body { font-family: 'Tajawal', sans-serif; margin: 0; background: #0f0f0f; color: white; text-align: center; }
+        .header { background: #1a1a1a; padding: 25px; font-size: 24px; font-weight: bold; border-bottom: 3px solid #2ecc71; }
+        .container { padding: 15px; max-width: 600px; margin: auto; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-
-        /* الكروت الأساسية */
-        .card { 
-            background: var(--card-dark); 
-            padding: 25px 15px; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            border: 1px solid #333;
-            position: relative;
-            overflow: hidden;
-        }
-
+        .card { background: #1e1e1e; padding: 25px; border-radius: 20px; cursor: pointer; border: 1px solid #333; transition: 0.3s; }
         .card:hover { transform: translateY(-5px); border-color: #555; }
-        .card:active { transform: scale(0.95); }
-
-        .alfa { border-bottom: 5px solid var(--alfa-red); color: var(--alfa-red); }
-        .touch { border-bottom: 5px solid var(--touch-blue); color: var(--touch-blue); }
-
-        /* زر العودة */
-        .btn-back { 
-            background: #222; 
-            color: #bbb; 
-            border: 1px solid #444; 
-            padding: 12px; 
-            border-radius: 12px; 
-            margin-bottom: 20px; 
-            cursor: pointer; 
-            width: 100%; 
-            font-size: 16px;
-            font-weight: bold;
-        }
-
+        .alfa { color: #E30613; border-bottom: 4px solid #E30613; }
+        .touch { color: #00A1E4; border-bottom: 4px solid #00A1E4; }
+        .btn-back { background: #333; color: #ccc; border: 1px solid #444; padding: 10px; border-radius: 12px; width: 100%; margin-bottom: 20px; cursor: pointer; }
         /* كرت المنتج الجديد */
-        .product-card {
-            background: var(--card-dark);
-            border-radius: 18px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #2a2a2a;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            text-align: right;
-        }
-
-        .product-header {
-            background: #252525;
-            padding: 15px;
-            border-radius: 18px 18px 0 0;
-            font-weight: bold;
-            font-size: 17px;
-            border-bottom: 1px solid #333;
-        }
-
-        .product-body {
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .p-price { color: var(--success); font-size: 22px; font-weight: bold; }
-        
-        .order-btn { 
-            background: var(--success); 
-            color: white; 
-            border: none; 
-            padding: 10px 25px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
-        }
-
+        .product-card { background: #1e1e1e; border-radius: 15px; overflow: hidden; border: 1px solid #2a2a2a; display: flex; flex-direction: column; text-align: right; }
+        .product-img { width: 100%; height: 110px; object-fit: cover; background: #252525; }
+        .p-info { padding: 12px; }
+        .p-price { color: #2ecc71; font-size: 20px; font-weight: bold; margin: 5px 0; }
+        .order-btn { background: #2ecc71; color: white; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <div class="header">BAROUD SERVICES</div>
-
 <div id="main-menu" class="container">
-    <h3 style="color: #888; margin-bottom: 25px;">اختر شبكة الاتصال</h3>
     <div class="grid">
-        <div class="card alfa" onclick="showSubMenu('alfa')">
-            <div style="font-size: 14px; opacity: 0.7;">الخدمة</div>
-            <strong>ALFA</strong>
-        </div>
-        <div class="card touch" onclick="showSubMenu('touch')">
-            <div style="font-size: 14px; opacity: 0.7;">الخدمة</div>
-            <strong>TOUCH</strong>
-        </div>
+        <div class="card alfa" onclick="showSubMenu('alfa')">ALFA</div>
+        <div class="card touch" onclick="showSubMenu('touch')">TOUCH</div>
     </div>
 </div>
 
 <div id="sub-menu" class="container hidden">
-    <button class="btn-back" onclick="goBack()">← العودة للرئيسية</button>
-    <h3 id="menu-title" style="margin-bottom: 20px; color: #f1c40f;"></h3>
+    <button class="btn-back" onclick="goBack()">← العودة</button>
     <div id="sections-list" class="grid"></div>
-    <div id="products-list" style="margin-top: 10px;"></div>
+    <div id="products-list" class="grid" style="grid-template-columns: 1fr 1fr;"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -145,75 +45,53 @@
     const SUPABASE_URL = 'https://ttqvxahhxylkpioxzzfm.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0cXZ4eGFoeHlsa3Bpb3h6emZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNzY4MjMsImV4cCI6MjA5Mzc1MjgyM30.uxtuxKOEQFONbwqy8C6euI4f5V0mzhlb0GZ79Id03Lw';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    let currentOperator = '';
+    let currentOp = '';
 
     function showSubMenu(op) {
-        currentOperator = op;
+        currentOp = op;
         document.getElementById('main-menu').classList.add('hidden');
         document.getElementById('sub-menu').classList.remove('hidden');
-        document.getElementById('menu-title').innerText = "خدمات " + op.toUpperCase();
         renderSections(op);
     }
 
     function renderSections(op) {
         const list = document.getElementById('sections-list');
         const pList = document.getElementById('products-list');
-        list.innerHTML = ''; pList.innerHTML = '';
-        list.classList.remove('hidden');
-
+        list.innerHTML = ''; pList.innerHTML = ''; list.classList.remove('hidden');
         const cats = op === 'alfa' ? ['Cards', 'Mobile Internet', 'U-Share Bundles'] : ['Cards', 'Validity', 'Mobile Internet'];
-
-        cats.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.style.padding = "20px 10px";
-            card.innerText = item;
-            card.onclick = () => fetchProducts(item);
-            list.appendChild(card);
+        cats.forEach(c => {
+            const d = document.createElement('div');
+            d.className = 'card'; d.innerText = c;
+            d.onclick = () => fetchProducts(c);
+            list.appendChild(d);
         });
     }
 
-    async function fetchProducts(category) {
-        document.getElementById('menu-title').innerText = category;
+    async function fetchProducts(cat) {
         document.getElementById('sections-list').classList.add('hidden');
+        const { data } = await _supabase.from('products').select('*').eq('operator', currentOp).eq('category', cat);
         const pList = document.getElementById('products-list');
-        pList.innerHTML = '<p style="color: #666;">جاري تحميل العروض...</p>';
-
-        const { data, error } = await _supabase.from('products').select('*').eq('operator', currentOperator).eq('category', category);
-
         pList.innerHTML = '';
-        if (error || !data.length) {
-            pList.innerHTML = '<p>لا يوجد عروض حالياً.</p>';
-            return;
-        }
-
         data.forEach(p => {
             pList.innerHTML += `
                 <div class="product-card">
-                    <div class="product-header">${p.name}</div>
-                    <div class="product-body">
-                        <div class="p-price">$${parseFloat(p.price_usd).toFixed(2)}</div>
-                        <button class="order-btn" onclick="order('${p.name}', '${p.price_usd}')">طلب الآن</button>
+                    <img src="${p.image_url}" class="product-img">
+                    <div class="p-info">
+                        <div style="font-weight:bold; font-size:14px;">${p.name}</div>
+                        <div class="p-price">$${p.price_usd}</div>
+                        <button class="order-btn" onclick="order('${p.name}', '${p.price_usd}')">طلب</button>
                     </div>
                 </div>`;
         });
     }
 
     function goBack() {
-        if (document.getElementById('sections-list').classList.contains('hidden')) {
-            renderSections(currentOperator);
-            document.getElementById('menu-title').innerText = "خدمات " + currentOperator.toUpperCase();
-        } else {
-            document.getElementById('sub-menu').classList.add('hidden');
-            document.getElementById('main-menu').classList.remove('hidden');
-        }
+        if (document.getElementById('sections-list').classList.contains('hidden')) renderSections(currentOp);
+        else { document.getElementById('sub-menu').classList.add('hidden'); document.getElementById('main-menu').classList.remove('hidden'); }
     }
 
-    function order(name, price) {
-        const phone = "96170000000"; // حط رقمك هون
-        const msg = encodeURIComponent(`مرحباً، أريد طلب:\nالخدمة: ${name}\nالسعر: $${price}`);
-        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+    function order(n, p) {
+        window.open(`https://wa.me/96170000000?text=${encodeURIComponent('طلب: ' + n + ' بـ $' + p)}`, '_blank');
     }
 </script>
 </body>
